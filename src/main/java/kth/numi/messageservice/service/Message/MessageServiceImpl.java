@@ -25,19 +25,25 @@ public class MessageServiceImpl implements MessageService {
             message = messageRepository.save(message);
             return ResponseEntity.status(HttpStatus.OK).body(message);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending message: " + e.getMessage());
+            e.printStackTrace(); // Gives details of the error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
         }
     }
 
     @Override
     public ResponseEntity<?> getMessagesBySenderAndReceiverOrderedByTimestamp(Integer senderId, Integer receiverId) {
         try {
-
             List<Message> messages = messageRepository.
                     findMessagesBySenderIDAndReceiverIDOrderByTimestamp(senderId, receiverId);
-            return ResponseEntity.status(HttpStatus.OK).body(messages);
+            if (!messages.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(messages);
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Did not find any messages");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred");
         }
     }
 }
