@@ -6,11 +6,13 @@ import kth.numi.messageservice.model.Message;
 import kth.numi.messageservice.service.Message.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/message")
 @Tag(name = "Message Controller", description = "Manage message data")
+@PreAuthorize("hasAnyRole('PATIENT', 'DOCTOR', 'STAFF')")
 public class MessageController {
     final private MessageService messageService;
 
