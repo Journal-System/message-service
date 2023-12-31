@@ -10,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.BDDMockito.given;
 import java.time.LocalDateTime;
@@ -34,6 +35,7 @@ class MessageControllerTest {
 
         mvc.perform(get("/message/getMessagesBySenderAndReceiver")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.jwt().jwt((jwt) -> jwt.subject("test@test.com")))
                         .accept(MediaType.APPLICATION_JSON)
                         .param("senderId", "1")
                         .param("receiverId", "2"))
@@ -54,6 +56,7 @@ class MessageControllerTest {
 
         mvc.perform(get("/message/getMessagesBySenderAndReceiver")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.jwt().jwt((jwt) -> jwt.subject("test@test.com")))
                         .accept(MediaType.APPLICATION_JSON)
                         .param("senderId", "1")
                         .param("receiverId", "2"))
@@ -70,6 +73,7 @@ class MessageControllerTest {
 
         mvc.perform(get("/message/getMessagesBySenderAndReceiver")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.jwt().jwt((jwt) -> jwt.subject("test@test.com")))
                         .accept(MediaType.APPLICATION_JSON)
                         .param("senderId", "1")
                         .param("receiverId", "2"))
@@ -89,6 +93,7 @@ class MessageControllerTest {
 
         mvc.perform(post("/message/addMessage")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.jwt().jwt((jwt) -> jwt.subject("test@test.com")))
                         .accept(MediaType.APPLICATION_JSON)
                         .content(mockMessageJson))
                 .andDo(print())
@@ -111,6 +116,7 @@ class MessageControllerTest {
 
         mvc.perform(post("/message/addMessage")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.jwt().jwt((jwt) -> jwt.subject("test@test.com")))
                         .accept(MediaType.APPLICATION_JSON)
                         .content(mockMessageJson))
                 .andDo(print())
